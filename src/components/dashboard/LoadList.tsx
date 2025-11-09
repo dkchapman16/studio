@@ -2,10 +2,6 @@
 
 import * as React from "react"
 import {
-  CaretSortIcon,
-  ChevronDownIcon,
-} from "@radix-ui/react-icons"
-import {
   ColumnDef,
   ColumnFiltersState,
   SortingState,
@@ -19,6 +15,7 @@ import {
 } from "@tanstack/react-table"
 import Link from "next/link";
 import { format, parseISO } from 'date-fns';
+import { ChevronDown, ChevronsUpDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button"
 import {
@@ -38,7 +35,6 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Load } from "@/lib/types"
 import { StatusBadge } from "./StatusBadge"
-import { MoreHorizontal } from "lucide-react"
 
 interface LoadListProps {
   loads: Load[];
@@ -59,7 +55,7 @@ export function LoadList({ loads }: LoadListProps) {
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Load Ref
-          <CaretSortIcon className="ml-2 h-4 w-4" />
+          <ChevronsUpDown className="ml-2 h-4 w-4" />
         </Button>
       ),
       cell: ({ row }) => <div className="font-medium">{row.getValue("load_ref")}</div>,
@@ -149,7 +145,7 @@ export function LoadList({ loads }: LoadListProps) {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="ml-auto">
-                Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
+                Columns <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
