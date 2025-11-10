@@ -5,12 +5,12 @@ import { getLoads } from "@/lib/datatruck-service";
 import { Load } from "@/lib/types";
 
 export default async function Home() {
-  // Fetch data from Datatruck and log it to the console for testing
+  // Fetch data from Datatruck
   const liveLoads = await getLoads();
-  console.log("Fetched loads from Datatruck:", liveLoads);
 
-  // We'll continue using placeholder data for the UI for now
-  const loads: Load[] = placeholderLoads;
+  // Combine live data with placeholder data for demonstration
+  // In a real application, you might want to only show liveLoads
+  const loads: Load[] = [...placeholderLoads, ...liveLoads];
 
   return (
     <div className="space-y-8">
