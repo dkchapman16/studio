@@ -1,5 +1,4 @@
 import { Load } from './types';
-import { placeholderLoads } from './placeholder-data';
 
 // This is a placeholder for the actual Datatruck API response.
 // In a real scenario, this would be a fetch call to the Datatruck API.
@@ -11,28 +10,26 @@ async function fetchFromDataTruck(): Promise<Load[]> {
 
     if (!apiKey || !apiEndpoint) {
         console.error("Datatruck API Key or Endpoint is not configured in .env file.");
-        // In a real scenario you might throw an error, but for demonstration we'll use placeholders.
         return [];
     }
     
     try {
-        // In a real application, you would make a fetch request like this:
         const response = await fetch(apiEndpoint, {
           headers: {
-            'Authorization': `Bearer ${apiKey}`
+            'Authorization': `Token ${apiKey}`
           }
         });
         if (!response.ok) {
+          const errorText = await response.text();
+          console.error(`Datatruck API request failed with status ${response.status}: ${errorText}`);
           throw new Error(`Datatruck API request failed with status ${response.status}`);
         }
         const data = await response.json();
-        // The API might return the loads directly or nested under a key.
-        // Adjust `data.loads` if the structure is different.
-        return data.loads || data;
+        // The API returns the loads nested under a `results` key.
+        return data.results || [];
 
     } catch (error) {
         console.error("Error fetching data from Datatruck:", error);
-        // Fallback to placeholders if the API call fails
         return [];
     }
 }
@@ -46,5 +43,5 @@ export async function getLoad(id: string): Promise<Load | undefined> {
     const allLoads = await getLoads();
     // The placeholder data uses a simple string `id`, but a real API might use a numeric `dt_id`.
     // We'll check for both to be safe.
-    return allLoads.find(load => load.id === id || String(load.dt_id) === id);
+    return allLoads.find(load => String(load.id) === id || String(load.dt_id) === id);
 }
