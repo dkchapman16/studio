@@ -10,9 +10,9 @@ async function fetchFromDataTruck(): Promise<Load[]> {
     const apiEndpoint = process.env.DATATRUCK_API_ENDPOINT;
 
     if (!apiKey || !apiEndpoint) {
-        console.error("Datatruck API Key or Endpoint is not configured in environment variables.");
-        // Return an empty array or throw an error if the API is essential
-        return [];
+        console.warn("Datatruck API Key or Endpoint is not configured. Falling back to placeholder data.");
+        // In a real scenario you might throw an error, but for demonstration we'll use placeholders.
+        return placeholderLoads;
     }
     
     try {
@@ -28,15 +28,15 @@ async function fetchFromDataTruck(): Promise<Load[]> {
         // const data = await response.json();
         // return data.loads; // Assuming the API returns { loads: [...] }
 
-        // For now, we'll simulate a successful API call and log it.
+        // For now, we'll simulate a successful API call and return the placeholder data
+        // as if it came from the live API.
         console.log(`Successfully simulated fetch from ${apiEndpoint}`);
-
-        // We can return an empty array for now since we're just testing the plumbing
-        return [];
+        return placeholderLoads;
 
     } catch (error) {
         console.error("Error fetching data from Datatruck:", error);
-        return [];
+        // Fallback to placeholders if the API call fails
+        return placeholderLoads;
     }
 }
 
@@ -46,7 +46,6 @@ export async function getLoads(): Promise<Load[]> {
 }
 
 export async function getLoad(id: string): Promise<Load | undefined> {
-    const liveLoads = await getLoads();
-    const allLoads = [...placeholderLoads, ...liveLoads];
+    const allLoads = await getLoads();
     return allLoads.find(load => load.id === id);
 }
