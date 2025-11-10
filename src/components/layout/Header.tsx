@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { AppSidebar } from "./AppSidebar"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
+import { SidebarTrigger } from "../ui/sidebar"
 
 export function Header() {
   return (
@@ -31,6 +32,9 @@ export function Header() {
           <AppSidebar />
         </SheetContent>
       </Sheet>
+      <div className="hidden sm:flex">
+        <SidebarTrigger />
+      </div>
       <div className="relative ml-auto flex-1 md:grow-0">
         <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input
