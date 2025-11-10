@@ -17,21 +17,18 @@ async function fetchFromDataTruck(): Promise<Load[]> {
     
     try {
         // In a real application, you would make a fetch request like this:
-        // const response = await fetch(apiEndpoint, {
-        //   headers: {
-        //     'Authorization': `Bearer ${apiKey}`
-        //   }
-        // });
-        // if (!response.ok) {
-        //   throw new Error(`Datatruck API request failed with status ${response.status}`);
-        // }
-        // const data = await response.json();
-        // return data.loads; // Assuming the API returns { loads: [...] }
-
-        // For now, we'll simulate a successful API call and return the placeholder data
-        // as if it came from the live API.
-        console.log(`Successfully simulated fetch from ${apiEndpoint}`);
-        return placeholderLoads;
+        const response = await fetch(apiEndpoint, {
+          headers: {
+            'Authorization': `Bearer ${apiKey}`
+          }
+        });
+        if (!response.ok) {
+          throw new Error(`Datatruck API request failed with status ${response.status}`);
+        }
+        const data = await response.json();
+        // The API might return the loads directly or nested under a key.
+        // Adjust `data.loads` if the structure is different.
+        return data.loads || data;
 
     } catch (error) {
         console.error("Error fetching data from Datatruck:", error);
@@ -47,5 +44,7 @@ export async function getLoads(): Promise<Load[]> {
 
 export async function getLoad(id: string): Promise<Load | undefined> {
     const allLoads = await getLoads();
-    return allLoads.find(load => load.id === id);
+    // The placeholder data uses a simple string `id`, but a real API might use a numeric `dt_id`.
+    // We'll check for both to be safe.
+    return allLoads.find(load => load.id === id || String(load.dt_id) === id);
 }
