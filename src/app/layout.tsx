@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { SidebarProvider } from '@/components/ui/sidebar';
+import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/layout/AppSidebar';
 import { Header } from '@/components/layout/Header';
 import { Toaster } from "@/components/ui/toaster"
@@ -25,15 +25,13 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased">
         <SidebarProvider>
-          <div className="flex min-h-screen w-full">
             <AppSidebar />
-            <div className="flex flex-1 flex-col sm:pl-14">
+            <SidebarInset>
               <Header />
               <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 md:gap-8">
                 {children}
               </main>
-            </div>
-          </div>
+            </SidebarInset>
         </SidebarProvider>
         <Toaster />
       </body>
