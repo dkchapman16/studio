@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
-import { placeholderLoads } from "@/lib/placeholder-data";
 import { Button } from "@/components/ui/button";
 import { LoadDetailsView } from "@/components/load-details/LoadDetailsView";
 import { notFound } from "next/navigation";
+import { getLoad } from "@/lib/datatruck-service";
 
 
-export default function LoadDetailsPage({ params }: { params: { loadId: string } }) {
-  const load = placeholderLoads.find(l => l.id === params.loadId);
+export default async function LoadDetailsPage({ params }: { params: { loadId: string } }) {
+  const load = await getLoad(params.loadId);
 
   if (!load) {
     notFound();

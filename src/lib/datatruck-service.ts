@@ -1,4 +1,5 @@
 import { Load } from './types';
+import { placeholderLoads } from './placeholder-data';
 
 // This is a placeholder for the actual Datatruck API response.
 // In a real scenario, this would be a fetch call to the Datatruck API.
@@ -42,4 +43,10 @@ async function fetchFromDataTruck(): Promise<Load[]> {
 export async function getLoads(): Promise<Load[]> {
     const loads = await fetchFromDataTruck();
     return loads;
+}
+
+export async function getLoad(id: string): Promise<Load | undefined> {
+    const liveLoads = await getLoads();
+    const allLoads = [...placeholderLoads, ...liveLoads];
+    return allLoads.find(load => load.id === id);
 }
