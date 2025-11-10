@@ -10,9 +10,9 @@ async function fetchFromDataTruck(): Promise<Load[]> {
     const apiEndpoint = process.env.DATATRUCK_API_ENDPOINT;
 
     if (!apiKey || !apiEndpoint) {
-        console.warn("Datatruck API Key or Endpoint is not configured. Falling back to placeholder data.");
+        console.error("Datatruck API Key or Endpoint is not configured in .env file.");
         // In a real scenario you might throw an error, but for demonstration we'll use placeholders.
-        return placeholderLoads;
+        return [];
     }
     
     try {
@@ -33,7 +33,7 @@ async function fetchFromDataTruck(): Promise<Load[]> {
     } catch (error) {
         console.error("Error fetching data from Datatruck:", error);
         // Fallback to placeholders if the API call fails
-        return placeholderLoads;
+        return [];
     }
 }
 
