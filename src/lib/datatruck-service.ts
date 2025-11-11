@@ -16,7 +16,8 @@ async function fetchFromDataTruck(): Promise<Load[]> {
     try {
         const response = await fetch(apiEndpoint, {
           headers: {
-            'Authorization': `Token ${apiKey}`
+            'Authorization': `Token ${apiKey}`,
+            'Content-Type': 'application/json'
           }
         });
         if (!response.ok) {
